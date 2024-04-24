@@ -41,7 +41,7 @@ class UserController {
 
         private lateinit var userRepository: UserRepository
 
-        private lateinit var passwordEncoder: BCryptPasswordEncoder
+        private lateinit var passwordEncoder: PasswordEncoder
 
         @PostMapping("/login")
         fun login(@RequestBody loginRequestDto: LoginRequestDto): ResponseEntity<String> {
