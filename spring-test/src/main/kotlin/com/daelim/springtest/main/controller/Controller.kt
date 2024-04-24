@@ -33,4 +33,33 @@ class UserController {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body("200")
     }
+
+    @RestController
+    @RequestMapping("/api")
+    class UserController {
+
+
+        private lateinit var userRepository: UserRepository
+
+        private lateinit var passwordEncoder: BCryptPasswordEncoder
+
+        @PostMapping("/login")
+        fun login(@RequestBody loginRequestDto: LoginRequestDto): ResponseEntity<String> {
+            val user = userRepository.findByEmail(loginRequestDto.email)
+                ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("등록되지 않은 이메일입니다.")
+
+            if (!passwordEncoder.matches(loginRequestDto.password, user.password)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("비밀번호가 일치하지 않습니다.")
+            }
+
+            return ResponseEntity.ok("로그인 성공")
+        }
+    }
+    @Repository
+    interface UserRepository : JpaRepository<User, Long> {
+        fun findByEmail(email: String): User?
+    }
+
 }
