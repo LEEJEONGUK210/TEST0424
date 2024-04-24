@@ -30,7 +30,10 @@ class UserController {
 
         users.add(newUser)
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body("200")
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("200")
     }
+
+
+
 }
